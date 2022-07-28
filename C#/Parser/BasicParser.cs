@@ -16,7 +16,7 @@ namespace VerySimpleInterpreter.Parser
             if (_lookAhead.Type == type)
                 _lookAhead = _lexer.GetNextToken();
             else
-                Error("Expected "+ type+" - Found "+ _lookAhead.Type);
+                Error("Expected "+ type +" - Found "+ _lookAhead.Type);
         }
 
         public void Error(String err)
