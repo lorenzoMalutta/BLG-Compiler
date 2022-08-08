@@ -139,11 +139,14 @@ fact   : NUM | VAR | OE expr CE
                 Match(ETokenType.VAR);
             }
 
-            else if(_lookAhead.Type == ETokenType.OE && _lookAhead.Type == ETokenType.CE)
+            else if(_lookAhead.Type == ETokenType.OE)
             {
                 Match(ETokenType.OE);
-                Match(ETokenType.CE);
                 Expr();
+                Match(ETokenType.CE);
+            }
+            else {
+                Error("Expected NUM, VAR or OE");
             }
         }
 
