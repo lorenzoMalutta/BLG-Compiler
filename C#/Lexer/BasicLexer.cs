@@ -49,7 +49,6 @@ namespace VerySimpleInterpreter.Lexer
                     Column = 0;
                     Line++;
                     return new Token(ETokenType.EOL);                
-
             }
 
             if (_peek == '$')  //$[a-z]+
@@ -141,6 +140,5 @@ namespace VerySimpleInterpreter.Lexer
 
             return 0;
         }
-
     }
 }
