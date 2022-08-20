@@ -12,7 +12,7 @@ namespace VerySimpleInterpreter.Lexer
         public SymbolTable SymbolTable {get; protected set;}
         
         private char? _peek;
-        private StreamReader _reader;            
+        private StreamReader _reader;         
 
         public BasicLexer(string filename, SymbolTable? st = null) 
         {
@@ -80,15 +80,17 @@ namespace VerySimpleInterpreter.Lexer
             }
             if (Char.IsDigit(_peek.Value))  //[0-9]+
             {
-                var value = 0;                
-                do {
-                    _peek = NextChar();
-                    value = value * 10 + GetValue(_peek);
-                } while (Char.IsDigit(_peek.Value));
-                return new Token(ETokenType.NUM, value);
+                string v = "";
+                do
+                {
+                    v += _peek;
+                    _peek = NextChar();         
+                } while (char.IsDigit(_peek.Value));
+                    Console.WriteLine("Esse é o valor: "+ v);
+                return new Token(ETokenType.NUM, int.Parse(v));
             }        
             
-            Error("Erro Léxico");
+            //Error("Erro Léxico");
             return new Token(ETokenType.EOF);
         }
 

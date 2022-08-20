@@ -2,7 +2,6 @@ namespace VerySimpleInterpreter.Lexer
 {
     public class Token
     {
-
         public Token(ETokenType type, Int32? value = null)
         {
             Type = type;

@@ -13,6 +13,7 @@ namespace VerySimpleInterpreter.Parser
 
         public void Match(ETokenType type)
         {
+            Console.WriteLine("FOI AQ");
             if (_lookAhead.Type == type)
                 _lookAhead = _lexer.GetNextToken();
             else
@@ -30,13 +31,24 @@ namespace VerySimpleInterpreter.Parser
             Environment.Exit(0);
         }
 
-        public void Prog()
+        /*
+in     : INPUT VAR
+out    : OUTPUT VAR
+atrib  : VAR AT expr
+expr   : termY
+Y      : vazio | + expr | - expr
+term   : factZ
+Z      : vazio | * term | / term
+fact   : NUM | VAR | OE expr CE
+        */
+
+        public void Prog() // prog   : lineX
         {
             Line();
             X();
         }
 
-        public void X()
+        public void X() //X : EOF | prog
         {
             if (_lookAhead.Type == ETokenType.EOF)
                 Match(ETokenType.EOF);
@@ -44,32 +56,22 @@ namespace VerySimpleInterpreter.Parser
                 Prog();
         }
 
-        public void Line()
+        public void Line() // line   : stmt EOL
         {
             Stmt();
             Match(ETokenType.EOL);
         }
-
-        public void Stmt()
+    
+        public void Stmt() //stmt   : in | out | atrib  
         {
             if (_lookAhead.Type == ETokenType.INPUT)
-            {
-                Match(ETokenType.INPUT);
-                Match(ETokenType.VAR);
-            }
+                Input();
             else if (_lookAhead.Type == ETokenType.OUTPUT)
-            {
-                Match(ETokenType.OUTPUT);
-                Match(ETokenType.VAR);
-            }
+                Output();
             else if (_lookAhead.Type == ETokenType.VAR)
-            {
-                Match(ETokenType.VAR);
-                Match(ETokenType.AT);
-                Expr();
-            }
+                Atrib();
             else
-                Error("Expected INPUT, OUTPUT or VAR - Found "+ _lookAhead.Type);
+                Error("Expected Input, Output or Var");
         }
 
         public void Input()
@@ -93,75 +95,96 @@ namespace VerySimpleInterpreter.Parser
 
         public int Expr()
         {
-            int term = Term();
-            return Y(term);
+            var res1 = Term();
+            var res2 = Y(res1);
+            return res2;
         }
 
         public int Term()
         {
-            int fact = Fact();
-            return Z(fact);
+            var res1 = Fact();
+            var res2 = Z(res1);
+            return res2;
         }
 
-        public int Y(int term)
+        public int Y(int t)
         {
             if (_lookAhead.Type == ETokenType.SUM)
             {
                 Match(ETokenType.SUM);
-                int expr = Expr();
-                return term + expr;
+                var res = Expr();
+                return t + res;
             }
-            else if (_lookAhead.Type == ETokenType.SUB)
+            else if(_lookAhead.Type == ETokenType.SUB)
             {
                 Match(ETokenType.SUB);
-                int expr = Expr();
-                return term - expr;
+                var res = Expr();
+                return t - res;
             }
-            else
-                return term;
+            else if(!TestFollow(ETokenType.CE, ETokenType.EOL))
+            {
+                Error("Expected SUM, SUB, CE OR EOL");
+            }
+            return t;
         }
 
-        public int Z(int fact)
-        {
-            if (_lookAhead.Type == ETokenType.MULT)
-            {
-                Match(ETokenType.MULT);
-                int term = Term();
-                return fact * term;
-            }
-            else if (_lookAhead.Type == ETokenType.DIV)
-            {
-                Match(ETokenType.DIV);
-                int term = Term();
-                return fact / term;
-            }
-            else
-                return fact;
+        private bool TestFollow(params ETokenType[] list)
+        {   
+            return list.ToList().Exists(t => _lookAhead.Type == t);
         }
 
-        public int Fact()
+        public int Fact() //T
         {
-            if (_lookAhead.Type == ETokenType.NUM)
+            if(_lookAhead.Type == ETokenType.NUM)
             {
-                int num = Int32.Parse(_lookAhead.Value.ToString());
+                var res = _lookAhead.Value;
                 Match(ETokenType.NUM);
-                return num;
+                if(res != null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return 0;
+                }
             }
-            else if (_lookAhead.Type == ETokenType.VAR)
+
+            else if(_lookAhead.Type == ETokenType.VAR)
             {
                 Match(ETokenType.VAR);
                 return 0;
             }
-            else if (_lookAhead.Type == ETokenType.OE)
+
+            else if(_lookAhead.Type == ETokenType.OE)
             {
                 Match(ETokenType.OE);
-                int expr = Expr();
+                var res = Expr();
                 Match(ETokenType.CE);
-                return expr;
+                return res;
             }
-            else
-                Error("Expected NUM, VAR or OE - Found "+ _lookAhead.Type);
+            else {
+                Error("Expected NUM, VAR or OE");
+            }
             return 0;
+        }
+
+
+        public int Z(int t)
+        {
+            if(_lookAhead.Type == ETokenType.MULT)
+            {
+                Match(ETokenType.MULT);
+                var res = Term();
+                return t + res;
+            }
+
+            else if(_lookAhead.Type == ETokenType.DIV)
+            {
+                Match(ETokenType.DIV);
+                var res = Term();
+                return t + res;
+            }
+            return t;
         }
     }
 }

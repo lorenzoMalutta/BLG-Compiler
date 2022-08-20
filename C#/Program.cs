@@ -10,7 +10,7 @@ Token t = null;
 do {
     t = basicLexer.GetNextToken();
     //Console.WriteLine($"<{t.Type},{t.Value}>");
-    basicParser.Prog();
+    //basicParser.Prog();
 } while (t.Type != ETokenType.EOF);
 
-//Console.Write(st);
+Console.Write(st);
