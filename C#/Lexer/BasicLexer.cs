@@ -21,7 +21,7 @@ namespace VerySimpleInterpreter.Lexer
                 st = new SymbolTable();
             SymbolTable = st;
             _reader = new StreamReader(Filename);
-            Column = Line = 0;
+            Column = Line = 1;
         }
 
         public Token GetNextToken()
@@ -60,10 +60,10 @@ namespace VerySimpleInterpreter.Lexer
                         varName += _peek;      
                 } while (Char.IsLetter(_peek.Value));
                 if(Regex.IsMatch(varName, @"\s") || varName == ""){
-                    Error("Variavel não pode existir sem nome");
+                    //Error("Variavel não pode existir sem nome");
                     return new Token(ETokenType.ERR);
                 }
-                var key = SymbolTable.Put(varName);
+                var key = SymbolTable.Put(varName, null);
                 return new Token(ETokenType.VAR, key);
             }
 
@@ -87,6 +87,7 @@ namespace VerySimpleInterpreter.Lexer
                     _peek = NextChar();         
                 } while (char.IsDigit(_peek.Value));
                     Console.WriteLine("Esse é o valor: "+ v);
+//                    SymbolTable.Put(null, Int32.Parse(v));
                 return new Token(ETokenType.NUM, int.Parse(v));
             }        
             

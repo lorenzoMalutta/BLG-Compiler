@@ -28,7 +28,6 @@ namespace VerySimpleInterpreter
         }
 
         public Int32 Put(string name){
-
             return this.Put(name, null);
         }
 
@@ -36,7 +35,6 @@ namespace VerySimpleInterpreter
             var (entry, k) = GetByName(name);
             if (entry != null)
                 return k;
-            
             _data.Add(++_key, new TableEntry(ETokenType.VAR, name, value));
             return _key;
         }
@@ -59,6 +57,13 @@ namespace VerySimpleInterpreter
             return entry.Value;
         }
 
+        public TableEntry? GetEntry(Int32 key){
+            if (!(_data.ContainsKey(key)))
+                return null;
+            TableEntry entry = _data[key];
+            return entry;
+        }
+
 
         public override String ToString()
         {
@@ -79,7 +84,6 @@ namespace VerySimpleInterpreter
                 sb.AppendLine();
             });
             return sb.ToString();
-        }
-    
+        }   
     }
 }

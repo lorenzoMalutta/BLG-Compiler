@@ -4,11 +4,14 @@ namespace VerySimpleInterpreter.Parser
 {
     public class BasicParser
     {
+        private SymbolTable _symbolTable;   
         private BasicLexer _lexer;
         private Token _lookAhead;
-        public BasicParser(BasicLexer lexer)
+        public BasicParser(BasicLexer lexer, SymbolTable st)
         {
             _lexer = lexer;
+            _lookAhead = _lexer.GetNextToken();
+            _symbolTable = st;
         }
 
         public void Match(ETokenType type)
@@ -30,13 +33,24 @@ namespace VerySimpleInterpreter.Parser
             Environment.Exit(0);
         }
 
-        public void Prog()
+        /*
+in     : INPUT VAR
+out    : OUTPUT VAR
+atrib  : VAR AT expr
+expr   : termY
+Y      : vazio | + expr | - expr
+term   : factZ
+Z      : vazio | * term | / term
+fact   : NUM | VAR | OE expr CE
+        */
+
+        public void Prog() // prog   : lineX
         {
             Line();
             X();
         }
 
-        public void X()
+        public void X() //X : EOF | prog
         {
             if (_lookAhead.Type == ETokenType.EOF)
                 Match(ETokenType.EOF);
@@ -44,32 +58,22 @@ namespace VerySimpleInterpreter.Parser
                 Prog();
         }
 
-        public void Line()
+        public void Line() // line   : stmt EOL
         {
             Stmt();
             Match(ETokenType.EOL);
         }
-
-        public void Stmt()
+    
+        public void Stmt() //stmt   : in | out | atrib  
         {
             if (_lookAhead.Type == ETokenType.INPUT)
-            {
-                Match(ETokenType.INPUT);
-                Match(ETokenType.VAR);
-            }
+                Input();
             else if (_lookAhead.Type == ETokenType.OUTPUT)
-            {
-                Match(ETokenType.OUTPUT);
-                Match(ETokenType.VAR);
-            }
+                Output();
             else if (_lookAhead.Type == ETokenType.VAR)
-            {
-                Match(ETokenType.VAR);
-                Match(ETokenType.AT);
-                Expr();
-            }
+                Atrib();
             else
-                Error("Expected INPUT, OUTPUT or VAR - Found "+ _lookAhead.Type);
+                Error("Expected Input, Output or Var");
         }
 
         public void Input()
@@ -86,82 +90,111 @@ namespace VerySimpleInterpreter.Parser
 
         public void Atrib()
         {
+            var token = _lookAhead.Value;
             Match(ETokenType.VAR);
             Match(ETokenType.AT);
-            Expr();
+            var e = Expr();
+            if(token != null)
+            {
+                var entry = _symbolTable.GetEntry(token.Value);
+                if(entry != null)
+                    entry.Value = e;
+            }
         }
 
-        public int Expr()
+        public Double Expr()
         {
-            int term = Term();
-            return Y(term);
+            var res1 = Term();
+            return Y(res1);
         }
 
-        public int Term()
+        public Double Term()
         {
-            int fact = Fact();
-            return Z(fact);
+            var f = Fact();
+            return Z(f);
         }
 
-        public int Y(int term)
+        public Double Y(Double t)
         {
             if (_lookAhead.Type == ETokenType.SUM)
             {
                 Match(ETokenType.SUM);
-                int expr = Expr();
-                return term + expr;
+                var res = Expr();
+                return t + res;
             }
-            else if (_lookAhead.Type == ETokenType.SUB)
+            else if(_lookAhead.Type == ETokenType.SUB)
             {
                 Match(ETokenType.SUB);
-                int expr = Expr();
-                return term - expr;
+                var res = Expr();
+                return t - res;
             }
-            else
-                return term;
+            else if(!TestFollow(ETokenType.CE, ETokenType.EOL))
+            {
+                Error("Expected CE OR EOL");
+            }
+            return t;
         }
 
-        public int Z(int fact)
+        private bool TestFollow(params ETokenType[] list)
+        {   
+            return list.ToList().Exists(t => _lookAhead.Type == t);
+        }
+
+        public Double Fact() //T
+        {
+            if(_lookAhead.Type == ETokenType.NUM)
+            {
+                Double num = Convert.ToDouble(_lookAhead.Value);
+                Match(ETokenType.NUM);
+                return num;
+            }
+
+            else if (_lookAhead.Type == ETokenType.VAR){
+                int? key = _lookAhead.Value;
+                Double val = 0;
+                if (key == null)
+                {
+                    Error("Expected VAR");
+                    var s = _symbolTable.Get(key.Value);
+                    Match(ETokenType.VAR);
+                    val = s.Value;
+                }
+                return val;
+            }
+
+            else if(_lookAhead.Type == ETokenType.OE)
+            {
+                Match(ETokenType.OE);
+                var res = Expr();
+                Match(ETokenType.CE);
+                return res;
+            }
+            else {
+                Error("Expected NUM, VAR or OE");
+            }
+            return 0;
+        }
+
+
+        public Double Z(Double left)
         {
             if (_lookAhead.Type == ETokenType.MULT)
             {
                 Match(ETokenType.MULT);
-                int term = Term();
-                return fact * term;
+                var res = Term();
+                return left * res;
             }
-            else if (_lookAhead.Type == ETokenType.DIV)
+            else if(_lookAhead.Type == ETokenType.DIV)
             {
                 Match(ETokenType.DIV);
-                int term = Term();
-                return fact / term;
+                var res = Term();
+                return left / res;
             }
-            else
-                return fact;
-        }
-
-        public int Fact()
-        {
-            if (_lookAhead.Type == ETokenType.NUM)
+            else if(!TestFollow(ETokenType.CE, ETokenType.EOL))
             {
-                int num = Int32.Parse(_lookAhead.Value.ToString());
-                Match(ETokenType.NUM);
-                return num;
+                Error("Expected CE OR EOL");
             }
-            else if (_lookAhead.Type == ETokenType.VAR)
-            {
-                Match(ETokenType.VAR);
-                return 0;
-            }
-            else if (_lookAhead.Type == ETokenType.OE)
-            {
-                Match(ETokenType.OE);
-                int expr = Expr();
-                Match(ETokenType.CE);
-                return expr;
-            }
-            else
-                Error("Expected NUM, VAR or OE - Found "+ _lookAhead.Type);
-            return 0;
+            return left;
         }
     }
 }
