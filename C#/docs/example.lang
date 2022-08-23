@@ -2,5 +2,5 @@ $y = 2
 $z = 2
 $w = 10 * 2 / 2 
 write $w 
-write $y 
 write $z 
+write $y 
