@@ -73,7 +73,10 @@ namespace VerySimpleInterpreter.Parser
         public void Output() // out    : OUTPUT VAR
         {
             Match(ETokenType.OUTPUT);
+            Console.Write("Saída: ");
+            Console.WriteLine(_symbolTable.Get(_lookAhead.Value.Value));
             Match(ETokenType.VAR);
+            
         }
 
         public void Atrib() // atrib  : VAR AT expr
