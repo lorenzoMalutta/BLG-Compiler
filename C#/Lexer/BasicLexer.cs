@@ -86,8 +86,6 @@ namespace VerySimpleInterpreter.Lexer
                     v += _peek;
                     _peek = NextChar();         
                 } while (char.IsDigit(_peek.Value));
-                    Console.WriteLine("Esse é o valor: "+ v);
-//                    SymbolTable.Put(null, Int32.Parse(v));
                 return new Token(ETokenType.NUM, int.Parse(v));
             }        
             
