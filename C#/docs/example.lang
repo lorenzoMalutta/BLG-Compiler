@@ -1,6 +1,6 @@
 $y = 2
-$z = 2
-$w = 10 * 2 / 2 
+$z = 5
+$w = 10 + 2 / 2 
 write $w 
 write $z 
 write $y 

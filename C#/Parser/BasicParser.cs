@@ -73,9 +73,10 @@ namespace VerySimpleInterpreter.Parser
         public void Output() // out    : OUTPUT VAR
         {
             Match(ETokenType.OUTPUT);
-            Console.WriteLine("-----------");
             Console.Write("Saída : ");
             Console.WriteLine(_symbolTable.Get(_lookAhead.Value.Value));
+            Console.WriteLine("-----------");
+            Console.WriteLine("");
             Match(ETokenType.VAR);
         }
 
@@ -137,10 +138,7 @@ namespace VerySimpleInterpreter.Parser
                 var right = Term();
                 return left / right;
             }
-            else if (!TestFollow(ETokenType.CE, ETokenType.EOL))
-            {
-                Error("Expected CE or EOL");
-            }
+            
             return left;
         }
         public Double Fact() //fact   : NUM | VAR | OE expr CE

@@ -60,7 +60,7 @@ namespace VerySimpleInterpreter.Lexer
                         varName += _peek;      
                 } while (Char.IsLetter(_peek.Value));
                 if(Regex.IsMatch(varName, @"\s") || varName == ""){
-                    //Error("Variavel não pode existir sem nome");
+                    Error("Variavel não pode existir sem nome");
                     return new Token(ETokenType.ERR);
                 }
                 var key = SymbolTable.Put(varName, null);
