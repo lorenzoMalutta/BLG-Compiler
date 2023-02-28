@@ -68,6 +68,12 @@ factor:
     | NUM                   # factorNum
     ;
 
+functions: function functions
+        |// empty
+        ;
+ 
+function: FUNCTION VAR '('params')' fnBlock;
+
 fnBlock:
      '{' fnBody '}'                # fnBlockLine
     ;
