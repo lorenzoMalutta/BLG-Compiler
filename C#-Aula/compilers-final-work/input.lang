@@ -1,0 +1,18 @@
+write "informe um número:";
+read x;
+write "informe outro número:";
+read y;
+if (x > y) then {
+  write "X é maior que Y";
+} else { 
+  if (x < y) then {
+    write "Y é maior que X";
+  } else {
+    write "Y e X são iguais"; 
+  }
+}
+while (x < 10) do {
+    x = x + 1;
+    write "X:";
+    write x;
+}
