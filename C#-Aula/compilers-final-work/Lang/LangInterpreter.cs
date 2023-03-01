@@ -51,14 +51,49 @@ namespace Interpreter.Lang
         #endregion
 
         #region Variable and Expression Statements
-        protected (Double, Double) GetDoubles(IParseTree tree1, IParseTree tree2)
+
+        protected (String, String) GetStrings(IParseTree tree1, IParseTree tree2)
         {
             var t1 = Visit(tree1);
             var t2 = Visit(tree2);
-            Double.TryParse(t1?.ToString(), out var d1);
-            Double.TryParse(t2?.ToString(), out var d2);
-            return (d1, d2);
+            return (t1?.ToString(), t2?.ToString());
         }
+
+        // protected (Int64, Int64) GetInts(IParseTree tree1, IParseTree tree2)
+        // {
+        //     var t1 = Visit(tree1);
+        //     var t2 = Visit(tree2);
+        //     Int64.TryParse(t1?.ToString(), out var i1);
+        //     Int64.TryParse(t2?.ToString(), out var i2);
+        //     return (i1, i2);
+        // }
+
+        // protected (Double, Double) GetDoubles(IParseTree tree1, IParseTree tree2)
+        // {
+        //     var t1 = Visit(tree1);
+        //     var t2 = Visit(tree2);
+        //     Double.TryParse(t1?.ToString(), out var d1);
+        //     Double.TryParse(t2?.ToString(), out var d2);
+        //     return (d1, d2);
+        // }
+
+        // protected (float, float) GetFloats(IParseTree tree1, IParseTree tree2)
+        // {
+        //     var t1 = Visit(tree1);
+        //     var t2 = Visit(tree2);
+        //     float.TryParse(t1?.ToString(), out var f1);
+        //     float.TryParse(t2?.ToString(), out var f2);
+        //     return (f1, f2);
+        // }
+
+        // protected (Boolean, Boolean) GetBools(IParseTree tree1, IParseTree tree2)
+        // {
+        //     var t1 = Visit(tree1);
+        //     var t2 = Visit(tree2);
+        //     Boolean.TryParse(t1?.ToString(), out var b1);
+        //     Boolean.TryParse(t2?.ToString(), out var b2);
+        //     return (b1, b2);
+        // }
 
         public override object? VisitAtribVar([NotNull] LangParser.AtribVarContext context)
         {
@@ -70,14 +105,16 @@ namespace Interpreter.Lang
 
         public override object VisitExprPlus([NotNull] LangParser.ExprPlusContext context)
         {
-            var d = GetDoubles(context.term(), context.expr());
+            var d = GetStrings(context.term(), context.expr());
+            double.Parse(d.Item1);
+            double.Parse(d.Item2);
             return d.Item1 + d.Item2;
         }
 
         public override object VisitExprMinus([NotNull] LangParser.ExprMinusContext context)
         {
-            var d = GetDoubles(context.term(), context.expr());
-            return d.Item1 - d.Item2;
+            var d = GetStrings(context.term(), context.expr());
+            return double.Parse(d.Item1) - double.Parse(d.Item2);
         }
 
         public override object? VisitExprTerm([NotNull] LangParser.ExprTermContext context)
@@ -87,14 +124,15 @@ namespace Interpreter.Lang
 
         public override object? VisitTermMult([NotNull] LangParser.TermMultContext context)
         {
-            var d = GetDoubles(context.factor(), context.term());
-            return d.Item1 * d.Item2;
+            var d = GetStrings(context.factor(), context.term());
+            return double.Parse(d.Item1) * double.Parse(d.Item2);
         }
 
         public override object? VisitTermDiv([NotNull] LangParser.TermDivContext context)
         {
-            var d = GetDoubles(context.factor(), context.term());
-            return d.Item1 / d.Item2;
+            var d = GetStrings(context.factor(), context.term());
+            
+            return double.Parse(d.Item1) / double.Parse(d.Item2);
         }
 
         public override object? VisitTermFactor([NotNull] LangParser.TermFactorContext context)
@@ -151,21 +189,39 @@ namespace Interpreter.Lang
 
         public override object? VisitCondRelop([NotNull] LangParser.CondRelopContext context)
         {
-            var d = GetDoubles(context.e1, context.e2);
-            switch (context.RELOP.Type)
-            {
-                case LangLexer.EQ:
-                    return d.Item1 == d.Item2;
-                case LangLexer.NE:
-                    return d.Item1 != d.Item2;
-                case LangLexer.LT:
-                    return d.Item1 < d.Item2;
-                case LangLexer.LE:
-                    return d.Item1 <= d.Item2;
-                case LangLexer.GT:
-                    return d.Item1 > d.Item2;
-                case LangLexer.GE:
-                    return d.Item1 >= d.Item2;
+            var d = GetStrings(context.e1, context.e2);
+            try {
+                    switch (context.RELOP.Type)
+                {
+                    case LangLexer.EQ:
+                        return double.Parse(d.Item1) == double.Parse(d.Item2);
+                    case LangLexer.NE:
+                        return double.Parse(d.Item1) != double.Parse(d.Item2);
+                    case LangLexer.LT:
+                        return double.Parse(d.Item1) < double.Parse(d.Item2);
+                    case LangLexer.LE:
+                        return double.Parse(d.Item1) <= double.Parse(d.Item2);
+                    case LangLexer.GT:
+                        return double.Parse(d.Item1) > double.Parse(d.Item2);
+                    case LangLexer.GE:
+                        return double.Parse(d.Item1) >= double.Parse(d.Item2);
+                }
+            } catch {
+                    switch (context.RELOP.Type)
+                {
+                    case LangLexer.EQ:
+                        return d.Item1 == d.Item2;
+                    case LangLexer.NE:
+                        return d.Item1 != d.Item2;
+                    case LangLexer.LT:
+                        return d.Item1.LongCount() < d.Item2.LongCount();
+                    case LangLexer.LE:
+                        return d.Item1.LongCount() <= d.Item2.LongCount();
+                    case LangLexer.GT:
+                        return d.Item1.LongCount() > d.Item2.LongCount();
+                    case LangLexer.GE:
+                        return d.Item1.LongCount() >= d.Item2.LongCount();
+                }
             }
             return null;
         }
