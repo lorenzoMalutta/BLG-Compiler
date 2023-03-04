@@ -46,7 +46,7 @@ stmt:
     ;
 
 input: 
-    READ VAR            # inputRead
+    tipo READ VAR            # inputRead
     ;    
  
 output: 
@@ -78,9 +78,9 @@ cond:
     ;
 
 atrib: 
-       VAR '=' expr            # atribVar
-    |  VAR '=' STR             # atribStr
-    |  VAR                     # atribVarEmpty
+       tipo VAR '=' expr            # atribVar
+    |  tipo VAR '=' STR             # atribStr
+    |  tipo VAR                     # atribVarEmpty
     ;
 
 tipo:

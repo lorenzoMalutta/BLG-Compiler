@@ -3,11 +3,11 @@ function multiplicacao(num1, num2,num3){
 }
 
 write "Digite o primeiro número:";
-read num1;
+numero read num1;
 write "Digite o segundo número:";
-read num2;
+numero read num2;
 write "Digite o terceiro número:";
-read num3;
+numero read num3;
 
 
 
