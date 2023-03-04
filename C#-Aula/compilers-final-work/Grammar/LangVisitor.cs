@@ -121,6 +121,13 @@ public interface ILangVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitLineWhile([NotNull] LangParser.LineWhileContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>lineFor</c>
+	/// labeled alternative in <see cref="LangParser.line"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLineFor([NotNull] LangParser.LineForContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>lineEOL</c>
 	/// labeled alternative in <see cref="LangParser.line"/>.
 	/// </summary>
@@ -198,12 +205,26 @@ public interface ILangVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitIfstIfElse([NotNull] LangParser.IfstIfElseContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>while</c>
+	/// Visit a parse tree produced by the <c>whilestWhile</c>
 	/// labeled alternative in <see cref="LangParser.whilest"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitWhile([NotNull] LangParser.WhileContext context);
+	Result VisitWhilestWhile([NotNull] LangParser.WhilestWhileContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>whilestDoWhile</c>
+	/// labeled alternative in <see cref="LangParser.whilest"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitWhilestDoWhile([NotNull] LangParser.WhilestDoWhileContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>forstFor</c>
+	/// labeled alternative in <see cref="LangParser.forst"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitForstFor([NotNull] LangParser.ForstForContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>blockLine</c>
 	/// labeled alternative in <see cref="LangParser.block"/>.

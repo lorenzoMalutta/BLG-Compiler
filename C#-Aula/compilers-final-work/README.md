@@ -43,3 +43,35 @@ while (x < 10) {
     write "X:";
     write x;
 }
+
+EXAMPLE
+
+```
+write "escreva um número:";
+numero read x;
+write "escreva um número:";
+numero read i;
+//-----------------------------------------------------
+write "começo do FOR";
+for(numero i; i < 10; numero i = i + 1){
+    numero x = (x + 1);
+    write x;
+};
+"Write "Fim FOR;
+//-----------------------------------------------------
+write "começo do WHILE";
+while(x < 10){
+    numero x = (x + 1);
+    write x;
+};
+"Write "Fim WHILE;
+//-----------------------------------------------------
+write "Começo DoWhile";
+do {
+    numero x = x + 1;
+    write x;
+}
+while (x < 10);
+"Write "Fim DoWhile;
+
+```
