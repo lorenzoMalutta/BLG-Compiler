@@ -34,7 +34,7 @@ line:
 	  stmt EOL          # lineStmt
 	| ifst              # lineIf
 	| whilest           # lineWhile
-    //| forst           # lineFor
+    | forst             # lineFor
 	| EOL               # lineEOL
     ;
 
@@ -61,8 +61,11 @@ ifst:
     ;
 
 whilest:
-      WHILE '(' cond ')' block                    # while
-    // | DO block WHILE '(' cond ')'                 # DoWhile
+      WHILE '(' cond ')' block                    # whilestWhile
+    | DO block WHILE '(' cond ')'                 # whilestDoWhile
+    ;
+forst:
+      FOR '(' atrib? ';' cond? ';' atrib? ')' block  # forstFor
     ;
  
 block:
@@ -134,6 +137,7 @@ RETURN: [rR][eE][tT][uU][rR][nN];
 IF: [iI][fF];
 WHILE: [wW][hH][iI][lL][eE];
 DO: [dD][oO];
+FOR: [fF][oO][rR];
 THEN: [tT][hH][eE][nN];
 ELSE: [eE][lL][sS][eE];
 WRITE: [wW][rR][iI][tT][eE];
