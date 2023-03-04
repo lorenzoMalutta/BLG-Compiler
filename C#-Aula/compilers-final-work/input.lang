@@ -1,18 +1,7 @@
-write "informe um número:";
+write "escreva um número";
 numero read x;
-write "informe outro número:";
-numero read y;
-if (x > y) then {
-  write "X é maior que Y";
-} else { 
-  if (x < y) then {
-    write "Y é maior que X";
-  } else {
-    write "Y e X são iguais"; 
-  }
-}
-while (x < 10) {
-    numero x = x + 1;
-    write "X:";
-    write x;
+
+while(x<10) {
+  numero x = (x + 1);
+  write x;
 }
