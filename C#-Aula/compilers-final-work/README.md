@@ -1,29 +1,26 @@
 # compilers-final-work
 
 ```
-    antlr4 -visitor -Dlanguage=CSharp -o Grammar/ Lang.g4 
+    antlr4 -package Grammar -visitor -Dlanguage=CSharp -o Grammar/ Lang.g4 
 ```
 
 Example:
 
-function hello(){
-    write "Hello World";
+function multiplicacao(num1, num2,num3){
+    write num1 * num2 / num3;
 }
 
-function hello(str){
-    x = "Hello" + str;
-    write x;
-}
+write "Digite o primeiro número:";
+read num1;
+write "Digite o segundo número:";
+read num2;
+write "Digite o terceiro número:";
+read num3;
 
-write "Chamada de função";
-hello();
-hello();
-hello();
-hello();
 
-write hello("world");
 
-write "Fim da chamada de função";
+write "Chamando a função multiplicacao";
+multiplicacao(num1,num2,num3);
 
 
 EXAMPLE
