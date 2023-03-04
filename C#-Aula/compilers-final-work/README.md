@@ -38,7 +38,7 @@ if (x > y) then {
     write "Y e X são iguais"; 
   }
 }
-while (x < 10) do {
+while (x < 10) {
     numero x = x + 1;
     write "X:";
     write x;

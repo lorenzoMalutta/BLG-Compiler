@@ -1,15 +1,18 @@
-function multiplicacao(num1, num2,num3){
-    write num1 * num2 / num3;
+write "informe um número:";
+numero read x;
+write "informe outro número:";
+numero read y;
+if (x > y) then {
+  write "X é maior que Y";
+} else { 
+  if (x < y) then {
+    write "Y é maior que X";
+  } else {
+    write "Y e X são iguais"; 
+  }
 }
-
-write "Digite o primeiro número:";
-numero read num1;
-write "Digite o segundo número:";
-numero read num2;
-write "Digite o terceiro número:";
-numero read num3;
-
-write num1;
-
-write "Chamando a função multiplicacao";
-multiplicacao(num1,num2,num3);
+while (x < 10) {
+    numero x = x + 1;
+    write "X:";
+    write x;
+}
