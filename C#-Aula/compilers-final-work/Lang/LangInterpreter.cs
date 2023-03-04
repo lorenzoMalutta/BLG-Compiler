@@ -1,5 +1,6 @@
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
+using Grammar;
 
 namespace Interpreter.Lang
 {
@@ -26,7 +27,7 @@ namespace Interpreter.Lang
             this._functions = functions;
         }
 
-        public Dictionary<string, Simbolo> Variables {get; protected set;} = new Dictionary<string, Simbolo>();
+        public Dictionary<string, Simbolo> Variables { get; protected set; } = new Dictionary<string, Simbolo>();
 
         #region I/O Statements
 
@@ -92,7 +93,7 @@ namespace Interpreter.Lang
             var varName = context.VAR().GetText();
             object? v = Visit(context.expr());
             Variables[varName].Value = v;
-            Console.WriteLine("Variable " + varName + " = " + v);
+            Console.WriteLine(Variables[varName].Id + " = " + Variables[varName].Value);
             return null;
         }
 
@@ -182,10 +183,84 @@ namespace Interpreter.Lang
             return null;
         }
 
+        public override object? VisitWhilestWhile([NotNull] LangParser.WhilestWhileContext context)
+        {
+            //Console.WriteLine("VisitWhilestWhile");
+            var cond = Visit(context.cond());
+            while (cond != null && (bool)cond)
+            {
+                Visit(context.block());
+                cond = Visit(context.cond());
+            }
+            return null;
+        }
+        public override object? VisitWhilestDoWhile([NotNull] LangParser.WhilestDoWhileContext context)
+        {
+            //Console.WriteLine("VisitWhilestDoWhile");
+            var cond = Visit(context.cond());
+            do
+            {
+                Visit(context.block());
+                cond = Visit(context.cond());
+            } while (cond != null && (bool)cond);
+            return null;
+        }
+
+        // public override object? VisitForstFor([NotNull] LangParser.ForstForContext context)
+        // {
+        //     foreach (var atrib in context.atrib())
+        //     {
+        //         Visit(atrib);
+        //     }
+
+        //     var cond = Visit(context.cond());
+        //     //quando acabar o for, o cond é null
+        //     while (cond != null && (bool)cond)
+        //     {
+        //         Visit(context.block());
+        //         Visit(context.atrib(1));
+        //         cond = Visit(context.cond());
+        //     }
+        //     return null;
+        // }
+
+        public override object? VisitForstFor(LangParser.ForstForContext context)
+        {
+            // Extrair as informações do contexto
+            var atrib1 = context.atrib(0);
+            var cond = context.cond();
+            var atrib2 = context.atrib(1);
+            var block = context.block();
+
+            // Visitar as expressões correspondentes
+            Visit(atrib1);
+            Visit(cond);
+            Visit(atrib2);
+
+            // Converter cond para double
+            var start = (double)Visit(atrib1);
+            var end = (double)Visit(cond);
+            var step = (double)Visit(atrib2);
+
+            // Loop do for
+            for (var i = start; i < end; i += step)
+            {
+                // Executar o bloco do for
+                Visit(block);
+            }
+
+            // Passar para o próximo bloco de código
+            return null;
+        }
+
+
+
+
+
         public override object? VisitCondExpr([NotNull] LangParser.CondExprContext context)
         {
             //Console.WriteLine("VisitCondExpr");
-            object? v = Visit(context.expr()); 
+            object? v = Visit(context.expr());
             return v != null && (Double)v != 0;
         }
 
@@ -242,7 +317,8 @@ namespace Interpreter.Lang
             var funcName = context.VAR().GetText();
             var function = _functions[funcName];
 
-            if (function != null){
+            if (function != null)
+            {
                 return Visit(function);
             }
 
