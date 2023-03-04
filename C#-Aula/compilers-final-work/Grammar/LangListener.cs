@@ -133,6 +133,18 @@ public interface ILangListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitParams([NotNull] LangParser.ParamsContext context);
 	/// <summary>
+	/// Enter a parse tree produced by the <c>funcInvocLine</c>
+	/// labeled alternative in <see cref="LangParser.funcInvoc"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterFuncInvocLine([NotNull] LangParser.FuncInvocLineContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>funcInvocLine</c>
+	/// labeled alternative in <see cref="LangParser.funcInvoc"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitFuncInvocLine([NotNull] LangParser.FuncInvocLineContext context);
+	/// <summary>
 	/// Enter a parse tree produced by the <c>lineStmt</c>
 	/// labeled alternative in <see cref="LangParser.line"/>.
 	/// </summary>
@@ -180,18 +192,6 @@ public interface ILangListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitLineEOL([NotNull] LangParser.LineEOLContext context);
-	/// <summary>
-	/// Enter a parse tree produced by the <c>funcInvocLine</c>
-	/// labeled alternative in <see cref="LangParser.funcInvoc"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterFuncInvocLine([NotNull] LangParser.FuncInvocLineContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>funcInvocLine</c>
-	/// labeled alternative in <see cref="LangParser.funcInvoc"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitFuncInvocLine([NotNull] LangParser.FuncInvocLineContext context);
 	/// <summary>
 	/// Enter a parse tree produced by the <c>stmtAtrib</c>
 	/// labeled alternative in <see cref="LangParser.stmt"/>.
@@ -408,6 +408,40 @@ public interface ILangListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitAtribVar([NotNull] LangParser.AtribVarContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>atribStr</c>
+	/// labeled alternative in <see cref="LangParser.atrib"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAtribStr([NotNull] LangParser.AtribStrContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>atribStr</c>
+	/// labeled alternative in <see cref="LangParser.atrib"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAtribStr([NotNull] LangParser.AtribStrContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>atribVarEmpty</c>
+	/// labeled alternative in <see cref="LangParser.atrib"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAtribVarEmpty([NotNull] LangParser.AtribVarEmptyContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>atribVarEmpty</c>
+	/// labeled alternative in <see cref="LangParser.atrib"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAtribVarEmpty([NotNull] LangParser.AtribVarEmptyContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="LangParser.tipo"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterTipo([NotNull] LangParser.TipoContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="LangParser.tipo"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitTipo([NotNull] LangParser.TipoContext context);
 	/// <summary>
 	/// Enter a parse tree produced by the <c>exprPlus</c>
 	/// labeled alternative in <see cref="LangParser.expr"/>.

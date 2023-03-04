@@ -92,6 +92,13 @@ public interface ILangVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitParams([NotNull] LangParser.ParamsContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>funcInvocLine</c>
+	/// labeled alternative in <see cref="LangParser.funcInvoc"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFuncInvocLine([NotNull] LangParser.FuncInvocLineContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>lineStmt</c>
 	/// labeled alternative in <see cref="LangParser.line"/>.
 	/// </summary>
@@ -119,13 +126,6 @@ public interface ILangVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitLineEOL([NotNull] LangParser.LineEOLContext context);
-	/// <summary>
-	/// Visit a parse tree produced by the <c>funcInvocLine</c>
-	/// labeled alternative in <see cref="LangParser.funcInvoc"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitFuncInvocLine([NotNull] LangParser.FuncInvocLineContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>stmtAtrib</c>
 	/// labeled alternative in <see cref="LangParser.stmt"/>.
@@ -252,6 +252,26 @@ public interface ILangVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitAtribVar([NotNull] LangParser.AtribVarContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>atribStr</c>
+	/// labeled alternative in <see cref="LangParser.atrib"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAtribStr([NotNull] LangParser.AtribStrContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>atribVarEmpty</c>
+	/// labeled alternative in <see cref="LangParser.atrib"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAtribVarEmpty([NotNull] LangParser.AtribVarEmptyContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="LangParser.tipo"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitTipo([NotNull] LangParser.TipoContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>exprPlus</c>
 	/// labeled alternative in <see cref="LangParser.expr"/>.
