@@ -12,6 +12,7 @@ namespace Interpreter.Lang
         public override void ExitInputRead([NotNull] LangParser.InputReadContext context)
         {
             var varName = context.VAR().GetText();
+            // var varType = context.tipo().GetText();
             Variables.Add(varName);
         }
 

@@ -9,7 +9,7 @@ numero read num2;
 write "Digite o terceiro número:";
 numero read num3;
 
-
+write num1;
 
 write "Chamando a função multiplicacao";
 multiplicacao(num1,num2,num3);

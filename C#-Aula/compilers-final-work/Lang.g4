@@ -86,7 +86,7 @@ atrib:
 tipo:
       'texto'
     | 'numero'
-    | 'booleano'
+    | 'boleano'
     ;
 
 expr: 

@@ -3,6 +3,20 @@ using Antlr4.Runtime.Tree;
 
 namespace Interpreter.Lang
 {
+    public class Simbolo
+    {
+        public string Type { get; set; }
+        public string Id { get; set; }
+        public object Value { get; set; }
+
+        public Simbolo(string type, string id, object value = null)
+        {
+            Type = type;
+            Id = id;
+            Value = value;
+        }
+    }
+
     public class LangInterpreter : LangBaseVisitor<object?>
     {
         private Dictionary<string, IParseTree> _functions;
@@ -12,7 +26,7 @@ namespace Interpreter.Lang
             this._functions = functions;
         }
 
-        public Dictionary<string, object?> Variables {get; protected set;} = new Dictionary<string, object?>();
+        public Dictionary<string, Simbolo> Variables {get; protected set;} = new Dictionary<string, Simbolo>();
 
         #region I/O Statements
 
@@ -20,15 +34,24 @@ namespace Interpreter.Lang
         {
             var input = Console.ReadLine();
             if (!String.IsNullOrEmpty(input))
-                Variables[context.VAR().GetText()] = input;
+                Variables[context.VAR().GetText()] = new Simbolo(context.tipo().GetText(), context.VAR().GetText(), input);
+            // Console.WriteLine(
+            //     Variables[context.VAR().GetText()].Id + " = " +
+            //     Variables[context.VAR().GetText()].Value + " = " +
+            //     Variables[context.VAR().GetText()].Type
+            // );
+            // Console.WriteLine(
+            //     Variables["num1"].GetType().ToString()
+            // );
             return null;
         }
 
         public override object? VisitOutputWriteVar([NotNull] LangParser.OutputWriteVarContext context)
         {
+            //Console.WriteLine("VisitOutputWriteVar");
             var varName = context.VAR().GetText();
             if (Variables.ContainsKey(varName))
-                Console.WriteLine(Variables[varName]);
+                Console.WriteLine(Variables[varName].Value);
             else
                 Console.WriteLine("Variable " + varName + " is not defined");
             return null;
@@ -36,6 +59,7 @@ namespace Interpreter.Lang
 
         public override object? VisitOutputWriteStr([NotNull] LangParser.OutputWriteStrContext context)
         {
+            //Console.WriteLine("VisitOutputWriteStr");
             var varName = context.STR().GetText();
             Console.WriteLine(varName.Replace("\"", ""));
             return null;
@@ -43,6 +67,7 @@ namespace Interpreter.Lang
 
         public override object? VisitOutputWriteExpr([NotNull] LangParser.OutputWriteExprContext context)
         {
+            //Console.WriteLine("VisitOutputWriteExpr");
             object? v = Visit(context.expr());
             if (v != null)
                 Console.WriteLine(v);
@@ -53,6 +78,7 @@ namespace Interpreter.Lang
         #region Variable and Expression Statements
         protected (Double, Double) GetDoubles(IParseTree tree1, IParseTree tree2)
         {
+            //Console.WriteLine("GetDoubles");
             var t1 = Visit(tree1);
             var t2 = Visit(tree2);
             Double.TryParse(t1?.ToString(), out var d1);
@@ -62,64 +88,75 @@ namespace Interpreter.Lang
 
         public override object? VisitAtribVar([NotNull] LangParser.AtribVarContext context)
         {
+            //Console.WriteLine("VisitAtribVar");
             var varName = context.VAR().GetText();
             object? v = Visit(context.expr());
-            Variables[varName] = v;
+            Variables[varName].Value = v;
+            Console.WriteLine("Variable " + varName + " = " + v);
             return null;
         }
 
         public override object VisitExprPlus([NotNull] LangParser.ExprPlusContext context)
         {
+            //Console.WriteLine("VisitExprPlus");
             var d = GetDoubles(context.term(), context.expr());
             return d.Item1 + d.Item2;
         }
 
         public override object VisitExprMinus([NotNull] LangParser.ExprMinusContext context)
         {
+            //Console.WriteLine("VisitExprMinus");
             var d = GetDoubles(context.term(), context.expr());
             return d.Item1 - d.Item2;
         }
 
         public override object? VisitExprTerm([NotNull] LangParser.ExprTermContext context)
         {
+            //Console.WriteLine("VisitExprTerm");
             return Visit(context.term());
         }
 
         public override object? VisitTermMult([NotNull] LangParser.TermMultContext context)
         {
+            //Console.WriteLine("VisitTermMult");
             var d = GetDoubles(context.factor(), context.term());
             return d.Item1 * d.Item2;
         }
 
         public override object? VisitTermDiv([NotNull] LangParser.TermDivContext context)
         {
+            //Console.WriteLine("VisitTermDiv");
             var d = GetDoubles(context.factor(), context.term());
             return d.Item1 / d.Item2;
         }
 
         public override object? VisitTermFactor([NotNull] LangParser.TermFactorContext context)
         {
+            //Console.WriteLine("VisitTermFactor");
             return Visit(context.factor());
         }
 
         public override object? VisitFactorVar([NotNull] LangParser.FactorVarContext context)
         {
+            //Console.WriteLine("VisitFactorVar");
             var varName = context.VAR().GetText();
             if (Variables.ContainsKey(varName))
-                return Variables[varName];
+                return Variables[varName].Value;
 
-            Console.WriteLine("Variable " + varName + " is not defined");
+            //Console.WriteLine("Variable " + varName + " is not defined");
             return null;
         }
 
         public override object? VisitFactorNum([NotNull] LangParser.FactorNumContext context)
         {
+            //Console.WriteLine("VisitFactorNum");
             var txtNum = context.NUM().GetText();
             return Double.Parse(txtNum);
         }
 
         public override object? VisitFactorExpr([NotNull] LangParser.FactorExprContext context)
         {
+            //Console.WriteLine("VisitFactorExpr");
             return Visit(context.expr());
         }
         #endregion
@@ -127,6 +164,7 @@ namespace Interpreter.Lang
         #region Control Statements
         public override object? VisitIfstIf([NotNull] LangParser.IfstIfContext context)
         {
+            //Console.WriteLine("VisitIfstIf");
             var cond = Visit(context.cond());
             if (cond != null && (bool)cond)
                 Visit(context.block());
@@ -135,6 +173,7 @@ namespace Interpreter.Lang
 
         public override object? VisitIfstIfElse([NotNull] LangParser.IfstIfElseContext context)
         {
+            //Console.WriteLine("VisitIfstIfElse");
             var cond = Visit(context.cond());
             if (cond != null && (bool)cond)
                 Visit(context.b1);
@@ -145,12 +184,14 @@ namespace Interpreter.Lang
 
         public override object? VisitCondExpr([NotNull] LangParser.CondExprContext context)
         {
+            //Console.WriteLine("VisitCondExpr");
             object? v = Visit(context.expr()); 
             return v != null && (Double)v != 0;
         }
 
         public override object? VisitCondRelop([NotNull] LangParser.CondRelopContext context)
         {
+            //Console.WriteLine("VisitCondRelop");
             var d = GetDoubles(context.e1, context.e2);
             switch (context.RELOP.Type)
             {
@@ -172,6 +213,7 @@ namespace Interpreter.Lang
 
         public override object? VisitCondAnd([NotNull] LangParser.CondAndContext context)
         {
+            //Console.WriteLine("VisitCondAnd");
             object? v1 = Visit(context.c1);
             object? v2 = Visit(context.c2);
             return v1 != null && v2 != null && (bool)v1 && (bool)v2;
@@ -179,6 +221,7 @@ namespace Interpreter.Lang
 
         public override object? VisitCondOr([NotNull] LangParser.CondOrContext context)
         {
+            //Console.WriteLine("VisitCondOr");
             object? v1 = Visit(context.c1);
             object? v2 = Visit(context.c2);
             return v1 != null && (bool)v1 || v2 != null && (bool)v2;
@@ -195,6 +238,7 @@ namespace Interpreter.Lang
 
         public override object? VisitFuncInvocLine([NotNull] LangParser.FuncInvocLineContext context)
         {
+            //Console.WriteLine("VisitFuncInvocLine");
             var funcName = context.VAR().GetText();
             var function = _functions[funcName];
 

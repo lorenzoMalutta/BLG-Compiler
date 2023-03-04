@@ -54,7 +54,7 @@ public partial class LangParser : Parser {
 	};
 
 	private static readonly string[] _LiteralNames = {
-		null, "'texto'", "'numero'", "'booleano'", "','", "'('", "')'", "'{'", 
+		null, "'texto'", "'numero'", "'boleano'", "','", "'('", "')'", "'{'", 
 		"'}'", "'='", "'+'", "'-'", "'*'", "'/'", "'&&'", "'||'", "'!'", "'=='", 
 		"'<'", "'>'", "'<='", "'>='", "'!='", "'true'", "'false'", null, null, 
 		null, null, null, null, null, null, null, null, "';'"
