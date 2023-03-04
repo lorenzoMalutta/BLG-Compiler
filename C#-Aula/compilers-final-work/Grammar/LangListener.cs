@@ -43,6 +43,96 @@ public interface ILangListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitProgLine([NotNull] LangParser.ProgLineContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="LangParser.functions"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterFunctions([NotNull] LangParser.FunctionsContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="LangParser.functions"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitFunctions([NotNull] LangParser.FunctionsContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="LangParser.function"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterFunction([NotNull] LangParser.FunctionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="LangParser.function"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitFunction([NotNull] LangParser.FunctionContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>fnBlockLine</c>
+	/// labeled alternative in <see cref="LangParser.fnBlock"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterFnBlockLine([NotNull] LangParser.FnBlockLineContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>fnBlockLine</c>
+	/// labeled alternative in <see cref="LangParser.fnBlock"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitFnBlockLine([NotNull] LangParser.FnBlockLineContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>fnBodyLine</c>
+	/// labeled alternative in <see cref="LangParser.fnBody"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterFnBodyLine([NotNull] LangParser.FnBodyLineContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>fnBodyLine</c>
+	/// labeled alternative in <see cref="LangParser.fnBody"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitFnBodyLine([NotNull] LangParser.FnBodyLineContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>fnBodyLineMore</c>
+	/// labeled alternative in <see cref="LangParser.fnBody"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterFnBodyLineMore([NotNull] LangParser.FnBodyLineMoreContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>fnBodyLineMore</c>
+	/// labeled alternative in <see cref="LangParser.fnBody"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitFnBodyLineMore([NotNull] LangParser.FnBodyLineMoreContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>fnReturnExprLine</c>
+	/// labeled alternative in <see cref="LangParser.fnBody"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterFnReturnExprLine([NotNull] LangParser.FnReturnExprLineContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>fnReturnExprLine</c>
+	/// labeled alternative in <see cref="LangParser.fnBody"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitFnReturnExprLine([NotNull] LangParser.FnReturnExprLineContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>fnReturnLine</c>
+	/// labeled alternative in <see cref="LangParser.fnBody"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterFnReturnLine([NotNull] LangParser.FnReturnLineContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>fnReturnLine</c>
+	/// labeled alternative in <see cref="LangParser.fnBody"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitFnReturnLine([NotNull] LangParser.FnReturnLineContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="LangParser.params"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterParams([NotNull] LangParser.ParamsContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="LangParser.params"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitParams([NotNull] LangParser.ParamsContext context);
+	/// <summary>
 	/// Enter a parse tree produced by the <c>lineStmt</c>
 	/// labeled alternative in <see cref="LangParser.line"/>.
 	/// </summary>
@@ -91,6 +181,18 @@ public interface ILangListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitLineEOL([NotNull] LangParser.LineEOLContext context);
 	/// <summary>
+	/// Enter a parse tree produced by the <c>funcInvocLine</c>
+	/// labeled alternative in <see cref="LangParser.funcInvoc"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterFuncInvocLine([NotNull] LangParser.FuncInvocLineContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>funcInvocLine</c>
+	/// labeled alternative in <see cref="LangParser.funcInvoc"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitFuncInvocLine([NotNull] LangParser.FuncInvocLineContext context);
+	/// <summary>
 	/// Enter a parse tree produced by the <c>stmtAtrib</c>
 	/// labeled alternative in <see cref="LangParser.stmt"/>.
 	/// </summary>
@@ -126,6 +228,18 @@ public interface ILangListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitStmtOutput([NotNull] LangParser.StmtOutputContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>lineFuncInvoc</c>
+	/// labeled alternative in <see cref="LangParser.stmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterLineFuncInvoc([NotNull] LangParser.LineFuncInvocContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>lineFuncInvoc</c>
+	/// labeled alternative in <see cref="LangParser.stmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitLineFuncInvoc([NotNull] LangParser.LineFuncInvocContext context);
 	/// <summary>
 	/// Enter a parse tree produced by the <c>inputRead</c>
 	/// labeled alternative in <see cref="LangParser.input"/>.
@@ -199,6 +313,18 @@ public interface ILangListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitIfstIfElse([NotNull] LangParser.IfstIfElseContext context);
 	/// <summary>
+	/// Enter a parse tree produced by the <c>while</c>
+	/// labeled alternative in <see cref="LangParser.whilest"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterWhile([NotNull] LangParser.WhileContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>while</c>
+	/// labeled alternative in <see cref="LangParser.whilest"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitWhile([NotNull] LangParser.WhileContext context);
+	/// <summary>
 	/// Enter a parse tree produced by the <c>blockLine</c>
 	/// labeled alternative in <see cref="LangParser.block"/>.
 	/// </summary>
@@ -270,18 +396,6 @@ public interface ILangListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitCondNot([NotNull] LangParser.CondNotContext context);
-	/// <summary>
-	/// Enter a parse tree produced by the <c>while</c>
-	/// labeled alternative in <see cref="LangParser.whilest"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterWhile([NotNull] LangParser.WhileContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>while</c>
-	/// labeled alternative in <see cref="LangParser.whilest"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitWhile([NotNull] LangParser.WhileContext context);
 	/// <summary>
 	/// Enter a parse tree produced by the <c>atribVar</c>
 	/// labeled alternative in <see cref="LangParser.atrib"/>.
@@ -402,106 +516,4 @@ public interface ILangListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitFactorNum([NotNull] LangParser.FactorNumContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="LangParser.functions"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterFunctions([NotNull] LangParser.FunctionsContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="LangParser.functions"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitFunctions([NotNull] LangParser.FunctionsContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="LangParser.function"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterFunction([NotNull] LangParser.FunctionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="LangParser.function"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitFunction([NotNull] LangParser.FunctionContext context);
-	/// <summary>
-	/// Enter a parse tree produced by the <c>fnBlockLine</c>
-	/// labeled alternative in <see cref="LangParser.fnBlock"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterFnBlockLine([NotNull] LangParser.FnBlockLineContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>fnBlockLine</c>
-	/// labeled alternative in <see cref="LangParser.fnBlock"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitFnBlockLine([NotNull] LangParser.FnBlockLineContext context);
-	/// <summary>
-	/// Enter a parse tree produced by the <c>fnBodyLine</c>
-	/// labeled alternative in <see cref="LangParser.fnBody"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterFnBodyLine([NotNull] LangParser.FnBodyLineContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>fnBodyLine</c>
-	/// labeled alternative in <see cref="LangParser.fnBody"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitFnBodyLine([NotNull] LangParser.FnBodyLineContext context);
-	/// <summary>
-	/// Enter a parse tree produced by the <c>fnBodyLineMore</c>
-	/// labeled alternative in <see cref="LangParser.fnBody"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterFnBodyLineMore([NotNull] LangParser.FnBodyLineMoreContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>fnBodyLineMore</c>
-	/// labeled alternative in <see cref="LangParser.fnBody"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitFnBodyLineMore([NotNull] LangParser.FnBodyLineMoreContext context);
-	/// <summary>
-	/// Enter a parse tree produced by the <c>fnReturnExprLine</c>
-	/// labeled alternative in <see cref="LangParser.fnBody"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterFnReturnExprLine([NotNull] LangParser.FnReturnExprLineContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>fnReturnExprLine</c>
-	/// labeled alternative in <see cref="LangParser.fnBody"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitFnReturnExprLine([NotNull] LangParser.FnReturnExprLineContext context);
-	/// <summary>
-	/// Enter a parse tree produced by the <c>fnReturnLine</c>
-	/// labeled alternative in <see cref="LangParser.fnBody"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterFnReturnLine([NotNull] LangParser.FnReturnLineContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>fnReturnLine</c>
-	/// labeled alternative in <see cref="LangParser.fnBody"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitFnReturnLine([NotNull] LangParser.FnReturnLineContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="LangParser.params"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterParams([NotNull] LangParser.ParamsContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="LangParser.params"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitParams([NotNull] LangParser.ParamsContext context);
-	/// <summary>
-	/// Enter a parse tree produced by the <c>funcInvocLine</c>
-	/// labeled alternative in <see cref="LangParser.funcInvoc"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterFuncInvocLine([NotNull] LangParser.FuncInvocLineContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>funcInvocLine</c>
-	/// labeled alternative in <see cref="LangParser.funcInvoc"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitFuncInvocLine([NotNull] LangParser.FuncInvocLineContext context);
 }

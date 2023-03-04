@@ -39,6 +39,59 @@ public interface ILangVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitProgLine([NotNull] LangParser.ProgLineContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="LangParser.functions"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFunctions([NotNull] LangParser.FunctionsContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="LangParser.function"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFunction([NotNull] LangParser.FunctionContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>fnBlockLine</c>
+	/// labeled alternative in <see cref="LangParser.fnBlock"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFnBlockLine([NotNull] LangParser.FnBlockLineContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>fnBodyLine</c>
+	/// labeled alternative in <see cref="LangParser.fnBody"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFnBodyLine([NotNull] LangParser.FnBodyLineContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>fnBodyLineMore</c>
+	/// labeled alternative in <see cref="LangParser.fnBody"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFnBodyLineMore([NotNull] LangParser.FnBodyLineMoreContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>fnReturnExprLine</c>
+	/// labeled alternative in <see cref="LangParser.fnBody"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFnReturnExprLine([NotNull] LangParser.FnReturnExprLineContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>fnReturnLine</c>
+	/// labeled alternative in <see cref="LangParser.fnBody"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFnReturnLine([NotNull] LangParser.FnReturnLineContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="LangParser.params"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitParams([NotNull] LangParser.ParamsContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>lineStmt</c>
 	/// labeled alternative in <see cref="LangParser.line"/>.
 	/// </summary>
@@ -67,6 +120,13 @@ public interface ILangVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitLineEOL([NotNull] LangParser.LineEOLContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>funcInvocLine</c>
+	/// labeled alternative in <see cref="LangParser.funcInvoc"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFuncInvocLine([NotNull] LangParser.FuncInvocLineContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>stmtAtrib</c>
 	/// labeled alternative in <see cref="LangParser.stmt"/>.
 	/// </summary>
@@ -87,6 +147,13 @@ public interface ILangVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitStmtOutput([NotNull] LangParser.StmtOutputContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>lineFuncInvoc</c>
+	/// labeled alternative in <see cref="LangParser.stmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLineFuncInvoc([NotNull] LangParser.LineFuncInvocContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>inputRead</c>
 	/// labeled alternative in <see cref="LangParser.input"/>.
@@ -130,6 +197,13 @@ public interface ILangVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitIfstIfElse([NotNull] LangParser.IfstIfElseContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>while</c>
+	/// labeled alternative in <see cref="LangParser.whilest"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitWhile([NotNull] LangParser.WhileContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>blockLine</c>
 	/// labeled alternative in <see cref="LangParser.block"/>.
 	/// </summary>
@@ -171,13 +245,6 @@ public interface ILangVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitCondNot([NotNull] LangParser.CondNotContext context);
-	/// <summary>
-	/// Visit a parse tree produced by the <c>while</c>
-	/// labeled alternative in <see cref="LangParser.whilest"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitWhile([NotNull] LangParser.WhileContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>atribVar</c>
 	/// labeled alternative in <see cref="LangParser.atrib"/>.
@@ -248,64 +315,4 @@ public interface ILangVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitFactorNum([NotNull] LangParser.FactorNumContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="LangParser.functions"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitFunctions([NotNull] LangParser.FunctionsContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="LangParser.function"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitFunction([NotNull] LangParser.FunctionContext context);
-	/// <summary>
-	/// Visit a parse tree produced by the <c>fnBlockLine</c>
-	/// labeled alternative in <see cref="LangParser.fnBlock"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitFnBlockLine([NotNull] LangParser.FnBlockLineContext context);
-	/// <summary>
-	/// Visit a parse tree produced by the <c>fnBodyLine</c>
-	/// labeled alternative in <see cref="LangParser.fnBody"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitFnBodyLine([NotNull] LangParser.FnBodyLineContext context);
-	/// <summary>
-	/// Visit a parse tree produced by the <c>fnBodyLineMore</c>
-	/// labeled alternative in <see cref="LangParser.fnBody"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitFnBodyLineMore([NotNull] LangParser.FnBodyLineMoreContext context);
-	/// <summary>
-	/// Visit a parse tree produced by the <c>fnReturnExprLine</c>
-	/// labeled alternative in <see cref="LangParser.fnBody"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitFnReturnExprLine([NotNull] LangParser.FnReturnExprLineContext context);
-	/// <summary>
-	/// Visit a parse tree produced by the <c>fnReturnLine</c>
-	/// labeled alternative in <see cref="LangParser.fnBody"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitFnReturnLine([NotNull] LangParser.FnReturnLineContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="LangParser.params"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitParams([NotNull] LangParser.ParamsContext context);
-	/// <summary>
-	/// Visit a parse tree produced by the <c>funcInvocLine</c>
-	/// labeled alternative in <see cref="LangParser.funcInvoc"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitFuncInvocLine([NotNull] LangParser.FuncInvocLineContext context);
 }

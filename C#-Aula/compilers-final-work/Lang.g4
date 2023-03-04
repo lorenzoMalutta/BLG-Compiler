@@ -1,6 +1,33 @@
 grammar Lang;
 
-prog: line+             # progLine
+prog: functions line+             # progLine
+    ;
+
+functions: function functions
+        |// empty
+        ;
+ 
+function: FUNCTION VAR '('params')' fnBlock;
+
+fnBlock:
+     '{' fnBody '}'                # fnBlockLine
+    ;
+
+fnBody:
+      line                      # fnBodyLine
+    | line fnBody               # fnBodyLineMore
+    | RETURN expr EOL           # fnReturnExprLine
+    | RETURN EOL                # fnReturnLine
+    ;
+
+params: 
+        VAR
+      | VAR SEP params
+      | // empty
+      ;
+
+funcInvoc:
+    VAR '(' params ')' # funcInvocLine
     ;
 
 line:
@@ -11,9 +38,9 @@ line:
     ;
 
 stmt: 
-      atrib             # stmtAtrib
-    | input             # stmtInput
-    | output            # stmtOutput
+      atrib     {Console.WriteLine("Atribuição reconhecida\n");}        # stmtAtrib
+    | input     {Console.WriteLine("Input reconhecido\n");}             # stmtInput
+    | output    {Console.WriteLine("Output reconhecida\n");}            # stmtOutput
     ;
 
 input: 
@@ -47,7 +74,15 @@ whilest : WHILE '('cond')' DO block                   #while
     ;
 
 atrib: 
-     VAR '=' expr            # atribVar
+       VAR '=' expr            # atribVar
+    |  VAR '=' STR             # atribStr
+    |  VAR                     # atribVarEmpty
+    ;
+
+tipo:
+      'texto'
+    | 'numero'
+    | 'booleano'
     ;
 
 expr: 
@@ -66,33 +101,6 @@ factor:
      '(' expr ')'           # factorExpr
     | VAR                   # factorVar
     | NUM                   # factorNum
-    ;
-
-functions: function functions
-        |// empty
-        ;
- 
-function: FUNCTION VAR '('params')' fnBlock;
-
-fnBlock:
-     '{' fnBody '}'                # fnBlockLine
-    ;
-
-fnBody:
-      line                      # fnBodyLine
-    | line fnBody               # fnBodyLineMore
-    | RETURN expr EOL           # fnReturnExprLine
-    | RETURN EOL                # fnReturnLine
-    ;
-
-params: 
-        VAR
-      | VAR SEP params
-      | // empty
-      ;
-
-funcInvoc:
-    VAR '(' params ')' # funcInvocLine
     ;
 
 // Lexical rules
