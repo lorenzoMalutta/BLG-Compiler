@@ -233,20 +233,24 @@ namespace Interpreter.Lang
             var block = context.block();
 
             // Visitar as expressões correspondentes
-            Visit(atrib1);
-            Visit(cond);
-            Visit(atrib2);
+            var start = Visit(atrib1);
+            var end = Visit(cond);
+            var step = Visit(atrib2);
 
-            // Converter cond para double
-            var start = (double)Visit(atrib1);
-            var end = (double)Visit(cond);
-            var step = (double)Visit(atrib2);
-
-            // Loop do for
-            for (var i = start; i < end; i += step)
+            if (start != null && end != null && step != null)
             {
-                // Executar o bloco do for
-                Visit(block);
+
+                double startValue = (double)start;
+                double endValue = (double)end;
+                double stepValue = (double)step;
+
+                for (var i = startValue; i < endValue; i += stepValue)
+                {
+                    // Executar o bloco do for
+                     Visit(context.block());
+                }
+            }else if (start == null || end == null || step == null){
+                Console.WriteLine("Erro no for");
             }
 
             // Passar para o próximo bloco de código
