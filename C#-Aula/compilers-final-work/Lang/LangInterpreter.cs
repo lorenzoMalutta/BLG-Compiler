@@ -206,56 +206,56 @@ namespace Interpreter.Lang
             return null;
         }
 
-        // public override object? VisitForstFor([NotNull] LangParser.ForstForContext context)
-        // {
-        //     foreach (var atrib in context.atrib())
-        //     {
-        //         Visit(atrib);
-        //     }
-
-        //     var cond = Visit(context.cond());
-        //     //quando acabar o for, o cond é null
-        //     while (cond != null && (bool)cond)
-        //     {
-        //         Visit(context.block());
-        //         Visit(context.atrib(1));
-        //         cond = Visit(context.cond());
-        //     }
-        //     return null;
-        // }
-
-        public override object? VisitForstFor(LangParser.ForstForContext context)
+        public override object? VisitForstFor([NotNull] LangParser.ForstForContext context)
         {
-            // Extrair as informações do contexto
-            var atrib1 = context.atrib(0);
-            var cond = context.cond();
-            var atrib2 = context.atrib(1);
-            var block = context.block();
-
-            // Visitar as expressões correspondentes
-            var start = Visit(atrib1);
-            var end = Visit(cond);
-            var step = Visit(atrib2);
-
-            if (start != null && end != null && step != null)
+            foreach (var atrib in context.atrib())
             {
-
-                double startValue = (double)start;
-                double endValue = (double)end;
-                double stepValue = (double)step;
-
-                for (var i = startValue; i < endValue; i += stepValue)
-                {
-                    // Executar o bloco do for
-                     Visit(context.block());
-                }
-            }else if (start == null || end == null || step == null){
-                Console.WriteLine("Erro no for");
+                Visit(atrib);
             }
 
-            // Passar para o próximo bloco de código
+            var cond = Visit(context.cond());
+            //quando acabar o for, o cond é null
+            while (cond != null && (bool)cond)
+            {
+                Visit(context.block());
+                Visit(context.atrib(1));
+                cond = Visit(context.cond());
+            }
             return null;
         }
+
+        // public override object? VisitForstFor(LangParser.ForstForContext context)
+        // {
+        //     // Extrair as informações do contexto
+        //     var atrib1 = context.atrib(0);
+        //     var cond = context.cond();
+        //     var atrib2 = context.atrib(1);
+        //     var block = context.block();
+
+        //     // Visitar as expressões correspondentes
+        //     var start = Visit(atrib1);
+        //     var end = Visit(cond);
+        //     var step = Visit(atrib2);
+
+        //     if (start != null && end != null && step != null)
+        //     {
+
+        //         double startValue = (double)start;
+        //         double endValue = (double)end;
+        //         double stepValue = (double)step;
+
+        //         for (var i = startValue; i < endValue; i += stepValue)
+        //         {
+        //             // Executar o bloco do for
+        //              Visit(context.block());
+        //         }
+        //     }else if (start == null || end == null || step == null){
+        //         Console.WriteLine("Erro no for");
+        //     }
+
+        //     // Passar para o próximo bloco de código
+        //     return null;
+        // }
 
 
 
