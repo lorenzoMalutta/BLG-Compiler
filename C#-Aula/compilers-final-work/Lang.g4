@@ -1,114 +1,88 @@
 grammar Lang;
 
-prog: functions line+             # progLine
-    ;
+prog: functions line+ # progLine;
 
-functions: function functions
-        |// empty
-        ;
- 
-function: FUNCTION VAR '('params')' fnBlock;
+functions:
+	function functions
+	| ; // empty
 
-fnBlock:
-     '{' fnBody '}'                # fnBlockLine
-    ;
+function: FUNCTION VAR '(' params ')' fnBlock;
+
+fnBlock: '{' fnBody '}' # fnBlockLine;
 
 fnBody:
-      line                      # fnBodyLine
-    | line fnBody               # fnBodyLineMore
-    | RETURN expr EOL           # fnReturnExprLine
-    | RETURN EOL                # fnReturnLine
-    ;
+	line				# fnBodyLine
+	| line fnBody		# fnBodyLineMore
+	| RETURN expr EOL	# fnReturnExprLine
+	| RETURN EOL		# fnReturnLine;
 
-params: 
-        VAR
-      | VAR SEP params
-      | // empty
-      ;
+params:
+	VAR
+	| VAR SEP params
+	| ; // empty
 
-funcInvoc:
-    VAR '(' params ')' # funcInvocLine
-    ;
+funcInvoc: VAR '(' params ')' # funcInvocLine;
 
 line:
-	  stmt EOL          # lineStmt
-	| ifst              # lineIf
-	| whilest           # lineWhile
-    | forst             # lineFor
-	| EOL               # lineEOL
-    ;
+	stmt EOL	# lineStmt
+	| ifst		# lineIf
+	| whilest	# lineWhile
+	| forst		# lineFor
+	| EOL		# lineEOL;
 
-stmt: 
-      atrib     {Console.WriteLine("Atribuição reconhecida\n");}        # stmtAtrib
-    | input     {Console.WriteLine("Input reconhecido\n");}             # stmtInput
-    | output    {Console.WriteLine("Output reconhecida\n");}            # stmtOutput
-    | funcInvoc                                                         # lineFuncInvoc
-    ;
+stmt:
+	atrib {Console.WriteLine("Atribuição reconhecida\n");}	# stmtAtrib
+	| input {Console.WriteLine("Input reconhecido\n");}		# stmtInput
+	| output {Console.WriteLine("Output reconhecida\n");}	# stmtOutput
+	| funcInvoc												# lineFuncInvoc;
 
-input: 
-    tipo READ VAR            # inputRead
-    ;    
- 
-output: 
-      WRITE VAR           # outputWriteVar
-    | WRITE STR           # outputWriteStr
-    | WRITE expr          # outputWriteExpr
-    ;
+input: tipo READ VAR # inputRead;
+
+output:
+	WRITE VAR		# outputWriteVar
+	| WRITE STR		# outputWriteStr
+	| WRITE expr	# outputWriteExpr;
 
 ifst:
-	  IF '(' cond ')' THEN block                  # ifstIf
-	| IF '(' cond ')' THEN b1=block ELSE b2=block # ifstIfElse
-    ;
+	IF '(' cond ')' THEN block							# ifstIf
+	| IF '(' cond ')' THEN b1 = block ELSE b2 = block	# ifstIfElse;
 
 whilest:
-      WHILE '(' cond ')' block                    # whilestWhile
-    | DO block WHILE '(' cond ')'                 # whilestDoWhile
-    ;
-forst:
-      FOR '(' atrib? ';' cond? ';' atrib? ')' block  # forstFor
-    ;
- 
-block:
-     '{' line+ '}'                # blockLine
-    ;
+	WHILE '(' cond ')' block		# whilestWhile
+	| DO block WHILE '(' cond ')'	# whilestDoWhile;
+forst: FOR '(' atrib? ';' cond? ';' atrib? ')' block # forstFor;
 
-cond: 
-      expr                        # condExpr
-    | e1=expr RELOP=(EQ|NE|LT|GT|LE|GE) e2=expr       # condRelop
-    | c1=cond AND c2=cond         # condAnd
-    | c1=cond OR c2=cond          # condOr
-    | NOT cond                    # condNot
-    ;
+block: '{' line+ '}' # blockLine;
 
-atrib: 
-       tipo VAR '=' expr            # atribVar
-    |  tipo VAR '=' STR             # atribStr
-    |  tipo VAR                     # atribVarEmpty
-    ;
+cond:
+	expr														# condExpr
+	| e1 = expr RELOP = (EQ | NE | LT | GT | LE | GE) e2 = expr	# condRelop
+	| c1 = cond AND c2 = cond									# condAnd
+	| c1 = cond OR c2 = cond									# condOr
+	| NOT cond													# condNot;
 
-tipo:
-      'texto'
-    | 'numero'
-    | 'boleano'
-    ;
+atrib:
+	tipo VAR '=' expr	# atribVar
+	| tipo VAR '=' STR	# atribStr
+	| tipo VAR			# atribVarEmpty;
 
-expr: 
-      term '+' expr         # exprPlus
-    | term '-' expr         # exprMinus
-    | term                  # exprTerm
-    ;
+tipo: 'texto' | 'numero' | 'boleano';
 
-term: 
-      factor '*' term       # termMult
-    | factor '/' term       # termDiv
-    | factor                # termFactor
-    ;           
+expr:
+	term '+' expr	# exprPlus
+	| term '-' expr	# exprMinus
+	| term			# exprTerm;
 
-factor: 
-     '(' expr ')'           # factorExpr
-    | VAR                   # factorVar
-    | NUM                   # factorNum
-    ;
+term:
+	factor '*' term		# termMult
+	| factor '/' term	# termDiv
+	| factor '%' term	# termMod
+	| factor			# termFactor;
+
+factor:
+	'(' expr ')'	# factorExpr
+	| VAR			# factorVar
+	| NUM			# factorNum;
 
 // Lexical rules
 SEP: ',';
@@ -124,12 +98,12 @@ DIV: '/';
 AND: '&&';
 OR: '||';
 NOT: '!';
-EQ : '==';
-LT : '<';
-GT : '>';
-LE : '<=';
-GE : '>=';
-NE : '!=';
+EQ: '==';
+LT: '<';
+GT: '>';
+LE: '<=';
+GE: '>=';
+NE: '!=';
 BOOL_TRUE: 'true';
 BOL_FALSE: 'false';
 FUNCTION: [fF][uU][nN][cC][tT][iI][oO][nN];

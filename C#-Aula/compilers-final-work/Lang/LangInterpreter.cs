@@ -35,17 +35,26 @@ namespace Interpreter.Lang
         {
             var input = Console.ReadLine();
             if (!String.IsNullOrEmpty(input))
-                Variables[context.VAR().GetText()] = new Simbolo(context.tipo().GetText(), context.VAR().GetText(), input);
-            // Console.WriteLine(
-            //     Variables[context.VAR().GetText()].Id + " = " +
-            //     Variables[context.VAR().GetText()].Value + " = " +
-            //     Variables[context.VAR().GetText()].Type
-            // );
-            // Console.WriteLine(
-            //     Variables["num1"].GetType().ToString()
-            // );
+            {
+                string varName = context.VAR().GetText();
+                string varType = context.tipo().GetText();
+                if (varType == "numero")
+                {
+                    if (!double.TryParse(input, out double doubleValue))
+                    {
+                        Console.WriteLine("Invalid input");
+                        return 0;
+                    }
+                }
+                else
+                {
+                    Variables[varName] = new Simbolo(context.tipo().GetText(), varName, input);
+                }
+            }
+
             return null;
         }
+
 
         public override object? VisitOutputWriteVar([NotNull] LangParser.OutputWriteVarContext context)
         {
