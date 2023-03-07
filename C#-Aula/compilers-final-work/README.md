@@ -1,11 +1,62 @@
-# compilers-final-work
+# BLG Compiler
 
+BLG Compiler is a compiler developed with the ANTLR4 tool that has the ability to compile a custom programming language called BLG Language.
+
+## How to compile BLG Language?
+
+To compile BLG Language, you need to use the following command:
+
+This command will generate the Grammar folder containing LangLexer.cs, LangParser.cs, and LangVisitor.cs.
+
+## BLG Language Syntax
+
+The BLG programming language has the following control structures:
+
+### Function declaration
 ```
-    antlr4 -package Grammar -visitor -Dlanguage=CSharp -o Grammar/ Lang.g4 
+function function_name(arguments){
+//code block
+}
 ```
 
-Example:
+### Input and Output Commands
+```
+write "message";
+read variable;
+```
 
+### FOR loop
+```
+for(variable; condition; increment){
+//code block
+}
+```
+
+### WHILE loop
+```
+while(condition){
+//code block
+}
+```
+
+### DO-WHILE loop
+```
+do {
+//code block
+} while(condition);
+```
+
+### IF-ELSE decision structure
+```
+if(condition){
+//code block
+} else {
+//code block
+}
+```
+
+## Example of BLG Language Program
+```
 function multiplicacao(num1, num2,num3){
     write num1 * num2 / num3;
 }
@@ -17,13 +68,42 @@ read num2;
 write "Digite o terceiro número:";
 read num3;
 
-
-
 write "Chamando a função multiplicacao";
 multiplicacao(num1,num2,num3);
 
+write "informe um número:";
+numero read x;
+write "informe outro número:";
+numero read y;
 
-EXAMPLE
+write "começo do FOR";
+for(numero i; i < 10; numero i = i + 1){
+    numero x = (x + 1);
+    write x;
+};
+
+write "informe um número:";
+numero read x;
+write "informe outro número:";
+numero read y;
+
+write "começo do WHILE";
+while(i < 10){
+    numero x = (x + 1);
+    write x;
+};
+
+write "informe um número:";
+numero read x;
+write "informe outro número:";
+numero read y;
+
+write "Começo DoWhile";
+do {
+    numero x = x + 1;
+    write x;
+}
+while (i < 10);
 
 write "informe um número:";
 numero read x;
@@ -38,40 +118,8 @@ if (x > y) then {
     write "Y e X são iguais"; 
   }
 }
-while (x < 10) {
-    numero x = x + 1;
-    write "X:";
-    write x;
-}
-
-EXAMPLE
-
 ```
-write "escreva um número:";
-numero read x;
-write "escreva um número:";
-numero read i;
-//-----------------------------------------------------
-write "começo do FOR";
-for(numero i; i < 10; numero i = i + 1){
-    numero x = (x + 1);
-    write x;
-};
-"Write "Fim FOR;
-//-----------------------------------------------------
-write "começo do WHILE";
-while(x < 10){
-    numero x = (x + 1);
-    write x;
-};
-"Write "Fim WHILE;
-//-----------------------------------------------------
-write "Começo DoWhile";
-do {
-    numero x = x + 1;
-    write x;
-}
-while (x < 10);
-"Write "Fim DoWhile;
 
-```
+## Conclusion
+
+With BLG Language, it is possible to develop programs in a custom programming language with basic control structures. The BLG Compiler allows compiling these programs and generating executable code.
