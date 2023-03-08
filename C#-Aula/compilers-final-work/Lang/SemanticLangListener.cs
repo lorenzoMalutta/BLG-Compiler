@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
 using Grammar;
@@ -13,7 +17,6 @@ namespace Interpreter.Lang
         public override void ExitInputRead([NotNull] LangParser.InputReadContext context)
         {
             var varName = context.VAR().GetText();
-            // var varType = context.tipo().GetText();
             Variables.Add(varName);
         }
 

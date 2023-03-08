@@ -16,7 +16,7 @@ namespace Interpreter.Lang
                                         string msg, RecognitionException e)
         {
             HasErrors = true;
-            ErrorMessages.Add($"Syntax error at line {line}, position {charPositionInLine}: {msg}");
+            ErrorMessages.Add($"erro de sintaxe na linha {line}, posição {charPositionInLine}: {msg}");
         }
     }
 }

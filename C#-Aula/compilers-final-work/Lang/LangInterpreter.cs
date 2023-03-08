@@ -20,6 +20,8 @@ namespace Interpreter.Lang
 
     public class LangInterpreter : LangBaseVisitor<object?>
     {
+        public Boolean HasErrors { get; private set; } = false;
+        public List<string> ErrorMessages { get; private set; } = new List<string>();
         private Dictionary<string, IParseTree> _functions;
 
         public LangInterpreter(Dictionary<string, IParseTree> functions)
@@ -34,6 +36,7 @@ namespace Interpreter.Lang
         public override object? VisitInputRead([NotNull] LangParser.InputReadContext context)
         {
             var input = Console.ReadLine();
+            
             if (!String.IsNullOrEmpty(input))
             {
                 string varName = context.VAR().GetText();
@@ -41,16 +44,48 @@ namespace Interpreter.Lang
                 if (varType == "numero")
                 {
                     if (!double.TryParse(input, out double doubleValue))
-                    {
-                        Console.WriteLine("Invalid input");
-                        return 0;
+                    {   
+                        HasErrors = true;
+                        while(HasErrors == true){
+                             ErrorMessages.Add($"O input '{input}' não é um número válido");
+                             Console.WriteLine(ErrorMessages[ErrorMessages.Count - 1]);
+                             Console.WriteLine("Variável " + "'" + varName + "'" + " só aceita inputs do tipo " + "'" + varType + "'");
+                             Console.WriteLine("Por favor, digite um "+varType+ " válido");
+                            input = Console.ReadLine();
+                            if(double.TryParse(input, out doubleValue)){
+                                HasErrors = false;
+                            }
+                            double.TryParse(input, out doubleValue);
+                            Variables[varName] = new Simbolo(context.tipo().GetText(), varName, doubleValue);
+                        }
+                    }else{
+                        Variables[varName] = new Simbolo(context.tipo().GetText(), varName, doubleValue);
                     }
-                }
-                else
+
+                }else if(varType == "texto")
                 {
-                    Variables[varName] = new Simbolo(context.tipo().GetText(), varName, input);
+                    if(double.TryParse(input, out double doubleValue))
+                    {
+                        HasErrors = true;
+                        while(HasErrors == true){
+                             ErrorMessages.Add($"O input '{input}' não é um texto válido");
+                             Console.WriteLine(ErrorMessages[ErrorMessages.Count - 1]);
+                             Console.WriteLine("Variável " + "'" + varName + "'" + " só aceita inputs do tipo " + "'" + varType + "'");
+                             Console.WriteLine("Por favor, digite um "+varType+ " válido");
+                            input = Console.ReadLine();
+                            if(!double.TryParse(input, out doubleValue)){
+                                HasErrors = false;
+                            }
+                            Variables[varName] = new Simbolo(context.tipo().GetText(), varName, input);
+                        }
+                    }else{
+                        Variables[varName] = new Simbolo(context.tipo().GetText(), varName, input);
+                    }
+                    
                 }
             }
+            
+            
 
             return null;
         }
@@ -100,9 +135,14 @@ namespace Interpreter.Lang
         {
             //Console.WriteLine("VisitAtribVar");
             var varName = context.VAR().GetText();
-            object? v = Visit(context.expr());
-            Variables[varName].Value = v;
-            Console.WriteLine(Variables[varName].Id + " = " + Variables[varName].Value);
+            var value = Visit(context.expr());
+            if (value != null)
+            {
+                if (Variables.ContainsKey(varName))
+                    Variables[varName].Value = value;
+                else
+                    Variables[varName] = new Simbolo("numero", varName, value);
+            }
             return null;
         }
 

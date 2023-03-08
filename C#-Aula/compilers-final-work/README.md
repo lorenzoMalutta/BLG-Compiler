@@ -71,6 +71,23 @@ read num3;
 write "Chamando a função multiplicacao";
 multiplicacao(num1,num2,num3);
 
+function CalcFatorial (fatorial,n){
+
+      for (numero i = 1;i <= n; numero i = (i + 1)) {
+          numero fatorial = fatorial * i;
+        }
+
+      write fatorial;
+
+}
+
+numero fatorial = 1;
+write "fatorial de quanto?";
+numero read n;
+
+write "chamando a função CalcFatorial...";
+CalcFatorial(fatorial, n);
+
 write "informe um número:";
 numero read x;
 write "informe outro número:";
