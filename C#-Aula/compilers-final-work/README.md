@@ -23,6 +23,8 @@ function function_name(arguments){
 ```
 write "message";
 read variable;
+
+If the input does not respect the type, a loop starts to verify the type until the type is correct.
 ```
 
 ### FOR loop
