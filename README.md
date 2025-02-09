@@ -5,6 +5,8 @@ BLG Compiler is a compiler developed with the ANTLR4 tool that has the ability t
 ## How to compile BLG Language?
 
 To compile BLG Language, you need to use the following command:
+antlr4 -package Grammar -visitor -Dlanguage=CSharp -o Grammar/ Lang.g4 
+
 
 This command will generate the Grammar folder containing LangLexer.cs, LangParser.cs, and LangVisitor.cs.
 
